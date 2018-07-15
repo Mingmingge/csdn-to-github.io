@@ -45,6 +45,8 @@ urlImgHeaders = {
 'referer': 'https://blog.csdn.net/babybabyup/article/details/81044277',
 'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'
 }
+
+
 class MyUrlOpen(object):
 
     def __init__(self, url):
@@ -61,11 +63,11 @@ class MyUrlOpen(object):
             buf = io.BytesIO(res.read())
             gf = gzip.GzipFile(fileobj=buf)
             content = gf.read()
-            print(content)
+            #print(content)
         else:
             print('编码方式未知，请联系作者添加')
-
-
+            content = None
+        return content
 
 
 class MyImgUrlOpen(MyUrlOpen):
@@ -77,19 +79,7 @@ class MyImgUrlOpen(MyUrlOpen):
     def my_UrlOpen(self):
         req = request.Request(self.url, headers=self.headers)
         res = request.urlopen(req, context=self.context)
-        try:
-            with open('/Users/hulimin/Desktop/20180714153718373.png', 'wb') as file:
-                file.write(res.read())
-                print('ok')
-        except:
-            print('except')
+        context = res.read()
+        return context
 
-
-
-
-myopen1 = MyUrlOpen('https://blog.csdn.net/babybabyup/article/details/81044277')
-myopen1.my_UrlOpen()
-
-myopen2 = MyImgUrlOpen('https://img-blog.csdn.net/20180714153718373?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JhYnliYWJ5dXA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70')
-myopen2.my_UrlOpen()
 
