@@ -5,6 +5,7 @@ import re
 
 import os
 
+from htmd import htmd
 from utils import urlopener
 
 
@@ -34,7 +35,7 @@ class RegCompiler(object):
         fullcontext = self.fullcontext
         mainObj = re.search(r'<article[\d\D]*</article>', fullcontext.decode('utf-8'))
         if mainObj:
-            return mainObj.group()
+            return htmd.subElements(htmd.deleteElements(mainObj.group()))
         else:
             return None
 
