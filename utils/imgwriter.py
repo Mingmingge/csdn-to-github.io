@@ -19,10 +19,13 @@ class ImgWriter(object):
         if not path.exists(self.parentpath):
             os.mkdir(self.parentpath)
         imgname = re.search(r'\d{10,20}', self.url).group()
-        imgpath = path.join(self.parentpath, imgname+'.png')
+        imgpath = path.join(self.parentpath, 'images')
+        if not path.exists(imgpath):
+            os.mkdir(imgpath)
+        img = path.join(imgpath, imgname+'.png')
         myopen = urlopener.MyImgUrlOpen(self.url)
         try:
-            with open(imgpath, 'wb') as file:
+            with open(img, 'wb') as file:
                 file.write(myopen.my_UrlOpen())
         except:
             print('图片写入错误！')

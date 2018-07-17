@@ -81,5 +81,3 @@ class MyImgUrlOpen(MyUrlOpen):
         res = request.urlopen(req, context=self.context)
         context = res.read()
         return context
-
-
