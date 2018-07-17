@@ -21,7 +21,7 @@ class ArticleWriter(object):
         path = os.path.join(self.parentpath,'articles')
         if not os.path.exists(path):
             os.mkdir(path)
-        articlename = os.path.join(path, self.title+'.txt')
+        articlename = os.path.join(path, self.title+'.md')
         try:
             with open(articlename, 'w') as file:
                 file.write(self.fullcontext)

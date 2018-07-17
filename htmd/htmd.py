@@ -112,12 +112,16 @@ def subElements(context):
             continue
         else:
             for li in list:
-                #print(li)
+                # print(li)
                 subcon = str(MARKDOWN[key][0]) + str(li) + str(MARKDOWN[key][1])
-                #print(subcon)
-                con = re.sub(HTML[key][0]+str(li)+HTML[key][1], subcon, con)
-                #print(HTML[key][0]+str(li)+HTML[key][1])
-    print(con)
+                # print(subcon)
+                try:
+                    con = re.sub(HTML[key][0] + str(li) + HTML[key][1], subcon, con)
+                except:
+                    print('出错')
+                    continue
+                # print(HTML[key][0]+str(li)+HTML[key][1])
+    #print(con)
     return con
 
 
@@ -253,7 +257,7 @@ set charset ‘utf8’
 
 </p>"""
 #subElements(deleteElements(html+html1+html2))
-subElements(deleteElements(testhtml))
+#print(subElements(deleteElements(testhtml)))
 #print(deleteElements(testhtml))
 
 #l = re.findall(re.compile(BlOCK_ELEMENTS['p']), yiduohtml)
