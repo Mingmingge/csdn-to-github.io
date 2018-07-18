@@ -9,7 +9,7 @@ from utils.urlopener import MyUrlOpen
 
 def run():
     parenpath = '/Users/hulimin/Desktop/1234'
-    host = 'https://blog.csdn.net/qq_34344061'
+    host = 'https://blog.csdn.net/babybabyup'
     i = 1
     j = 0
     while 1:
