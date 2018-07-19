@@ -36,7 +36,8 @@ MARKDOWN = {
     'hr': ('\n---', '\n\n'),
     'thead': ('\n', '|------\n'),
     'tbody': ('\n', '\n'),
-    'e_p': ('', '\n')
+    'e_p': ('', '\n'),
+    'img': ('\n![](', ')\n')
 
 }
 HTML = {
@@ -85,7 +86,7 @@ HTML = {
     'tr': '<tr.*?>(.*?)</tr>'
 }'''
 
-INLINE_ELEMENT = ['strong', 'em', 'b', 'code', 'li', 'ul', 'td', 'th', 'tr', 'span']
+INLINE_ELEMENT = ['img', 'strong', 'em', 'b', 'code', 'li', 'ul', 'td', 'th', 'tr', 'span']
 
 BLOCK_ELEMENTS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'p']
 
@@ -139,21 +140,26 @@ def subElements(context):
     for ele in INLINE_ELEMENT:
         if soup.find_all(ele):
             for key in soup.find_all(ele):
-                #print(str(key))
+                print(str(key))
                 #con = re.sub(str(key), str(MARKDOWN[ele][0] + str(key.string) + MARKDOWN[ele][1]), con)
                 if ele == 'code':
                     if re.search(r'<code style=.*?>.*?</code>', str(key)):
                         con = con.replace(str(key), str(MARKDOWN[ele][0] + str(key.string).strip() + MARKDOWN[ele][1]))
                     else:
                         con = con.replace(str(key), str(key.string))
+                elif ele == 'img':
+                    print(key)
+                    imgpath = os.path.join('../images/',str(os.path.join(re.search(r'\d{10,20}', str(key)).group()) + '.png'))
+                    con = con.replace(str(key),str(MARKDOWN[ele][0] + str(imgpath).strip() + MARKDOWN[ele][1]))
                 else:
-                    con = con.replace(str(key).strip(), str(MARKDOWN[ele][0] + str(key.string).strip() + MARKDOWN[ele][1]))
+                    con = con.replace(str(key).strip(),str(MARKDOWN[ele][0] + str(key.string).strip() + MARKDOWN[ele][1]))
         else:
             continue
         for ele in BLOCK_ELEMENTS:
             soup = bs4.BeautifulSoup(con, 'lxml')
             if soup.find_all(ele):
                 for key in soup.find_all(ele):
+                    print(key)
                     con = con.replace(str(key), str(MARKDOWN[ele][0] + str(key.string).strip() + MARKDOWN[ele][1]))
             else:
                 continue
@@ -290,8 +296,15 @@ html2 = """# Jdbc 连接 Mysql 时的中文乱码问题
 ```
   **strooo**       """
 
+
+html3 = """
+<p>最后，安装验证代码正确性啦，   <img src="https://img-blog.csdn.net/20180603132405509?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JhYnliYWJ5dXA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" title="">   以及卸载模块后：   <img src="https://img-blog.csdn.net/2018060313235489?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JhYnliYWJ5dXA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" title=""></p> """
+soup3 = bs4.BeautifulSoup(html3, 'lxml')
+#for key in soup3.find_all('img'):
+    #if re.search(r'\d{10,20}', str(key)):
+        #print(os.path.join('../images/', str(os.path.join(re.search(r'\d{10,20}', str(key)).group())+'.png')))
 with open('/Users/hulimin/Desktop/1.md' ,'w') as file:
-    file.write(subElements(deleteElements(html)))
+    file.write(subElements(deleteElements(html3)))
 
 
 
